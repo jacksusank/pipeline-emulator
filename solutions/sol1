@@ -1,0 +1,12 @@
+ldi r0, 0
+ldi r1, 1
+ldi r1, 2
+ldi r1, 3
+ldi r1, 4
+ldi r1, 5
+ldi r1, 6
+ldi r1, 7
+ldi r1, 8
+ldi r1, 9
+ldi r1, 10
+end
