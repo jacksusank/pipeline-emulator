@@ -12,7 +12,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright (c) 2025: ST, Pomona College.
- * Contributor: Your name here!
+ * Contributor: Jack Susank
  */
 
 #include "components/instruction_memory.hh"
@@ -33,8 +33,14 @@ class SingleCycleProcessor
     Decoder decoder;
     RegisterFile register_file;
     ALU alu;
-
     // TODO: your additional fields here!
+    int program_counter;
+    string operation;
+    int destination;
+    int source_register1;
+    int source_register2;
+    int imm;
+    // scons build/RISCV/gem5.debug -j8 -linker=gold
 
     // some stats for neat accounting
     int cycles_executed;
@@ -46,7 +52,8 @@ class SingleCycleProcessor
         register_file(8),
         alu(),
         // TODO: any additional fields constructed here or in the function!
-        cycles_executed(0)
+        cycles_executed(0),
+        program_counter(0)
     {  };
 
     void dumpRegisters()
@@ -68,6 +75,49 @@ class SingleCycleProcessor
             cycles_executed++;
 
             // TODO: your implementation here!
+
+            // The 5 steps according to pdf:
+
+            // 1. retrieve an instruction from instruction memory
+              // InstructionMemory(string program_filename)
+                // accessing instruction memory is as easy as receiving an
+                // index (i.e., program counter) and accessing the vector!
+                  // string getInstruction(int idx)
+            
+            string instruction = instruction_memory.getInstruction(program_counter);
+
+            decoder.decode(instruction, operation, destination, source_register1, source_register2, imm);
+
+            if (operation == "ldi"){
+              register_file.setRegister(destination, imm);
+            } else if (operation == "end") {
+              break; // exit the while loop
+            } else {
+              int reg1 = register_file.getRegister(source_register1);
+              int reg2 = register_file.getRegister(source_register2);
+
+              alu.setInputs(operation, reg1, reg2);
+              unsigned int alu_output = alu.execute();
+              register_file.setRegister(destination, alu_output);
+            }
+            program_counter++;
+
+
+
+            // 2. decode it into interpretable signals
+              // void decode(string instruction, string &operation, int &destination, int &source_register1, int &source_register2, int &imm)
+            // 3. send those signals to the appropriate execution components
+              // For the register file:
+                // RegisterFile(int 8 // numregisters)
+                // reg1 = getRegister(int source_register1)
+                // reg2 = getRegister(int source_register2)
+
+              // For the ALU:
+                // setInputs(string operation, unsigned int reg1, unsigned int reg2)
+                // execute()
+            // 4. update the processor state as appropriate
+              // For the ALU: setRegister(int idx, unsigned int data_in)
+            // 5. cleanly exit when the processor reaches the end of the program
         }
 
         // dump stats and registers!

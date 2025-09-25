@@ -67,7 +67,7 @@ class ALU
         } else if (operation == "mod") {
             return operand2 != 0 ? operand1 % operand2 : operand1;
         } else {
-            panic("Unknown ALU operation!");
+            panic("Unknown ALU operation!" + operation);
         }
 
         return 0; // unreachable fall through
