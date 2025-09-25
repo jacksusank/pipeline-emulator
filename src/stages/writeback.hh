@@ -27,6 +27,7 @@ class Writeback
     // primary components to perform this stage
     RegisterFile *register_file;
     ExecuteToWriteback *input_reg;
+    int data_in;
 
     // TODO: your additional fields here!
 
@@ -40,6 +41,12 @@ class Writeback
 
     bool tick()
     {
+        if (input_reg->use_imm) {
+          data_in = input_reg->imm;
+        } else{
+          data_in = input_reg->alu_output;
+        }
+        register_file->setRegister(input_reg->destination, data_in);
         // TODO: your implementation here!
 
         return false;

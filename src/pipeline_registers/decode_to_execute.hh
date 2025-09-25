@@ -22,6 +22,13 @@ class DecodeToExecute
 {
   public:
     // TODO: your fields here!
+    string operation = "add";
+    int destination = 0;
+    int register1_val = 0;
+    int register2_val = 0;
+    // int source_register1;
+    // int source_register2;
+    int imm;
 };
 
 #endif // __DECODE_TO_EXECUTE__

@@ -99,8 +99,12 @@ class SimplePipelineProcessor
 
             // start exit sequence
             if (decode_drained) {
-                // TODO: how should your implementation handle this case?
+                writeback_drained = writeback_stage.tick();
+                execute_drained = execute_stage.tick();
+                writeback_drained = writeback_stage.tick();
+                break;
             }
+            // TODO: how should your implementation handle this case?
             [[maybe_unused]] bool fetch_drained = fetch_stage.tick();
 
             done = writeback_drained;

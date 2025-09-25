@@ -12,7 +12,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright (c) 2025: ST, Pomona College.
- * Contributor: Your name here!
+ * Contributor: Jack Susank
  */
 
 #include <string>
@@ -23,6 +23,7 @@
 class FetchToDecode
 {
   public:
+    std::string instruction;
     // TODO: your fields here!
 };
 

@@ -44,9 +44,33 @@ class Execute
 
     bool tick()
     {
-	// TODO: your implementation here!
+      // TODO: your implementation here!
+      string operation = input_reg->operation;
+      int destination = input_reg->destination;
+      int register1_val = input_reg->register1_val;
+      int register2_val = input_reg->register2_val;
+      int imm = input_reg->imm;
 
-        return false;
+      if (operation == "ldi"){
+        // register_file.setRegister(destination, imm);
+        output_reg->destination = destination;
+        output_reg->imm = imm;
+        output_reg->alu_output = 0;
+        output_reg->use_imm = true;
+
+      } else if (operation == "end") {
+        // break; // exit the while loop
+      } else {
+        (*alu).setInputs(operation, register1_val, register2_val);
+        unsigned int alu_output = (*alu).execute();
+        // register_file.setRegister(destination, alu_output);
+        output_reg->destination = destination;
+        output_reg->imm = 0;
+        output_reg->alu_output = alu_output;
+        output_reg->use_imm = false;
+
+      }
+      return false;
     };
 };
 

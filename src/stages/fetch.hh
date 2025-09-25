@@ -27,20 +27,26 @@ class Fetch
     // primary components to perform this stage
     InstructionMemory *inst_mem;
     FetchToDecode *output_register;
+    int program_counter;
 
     // TODO: your additional fields here!
 
   public:
     Fetch(InstructionMemory *inst_mem, FetchToDecode *fetch_to_decode_register)
       : inst_mem(inst_mem),
-        output_register(fetch_to_decode_register)
+        output_register(fetch_to_decode_register),
+        program_counter(0)
         // TODO: construct your additional fields here or in the function!
     {  };
 
     bool tick()
     {
         // TODO: your implementation here!
+        string instruction = (*inst_mem).getInstruction(program_counter);
 
+        output_register->instruction = instruction;
+        
+        program_counter++;
         return false;
     };
 };

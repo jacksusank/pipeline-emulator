@@ -22,6 +22,10 @@ class ExecuteToWriteback
 {
   public:
     // TODO: your fields here!
+    int destination;
+    int imm;
+    unsigned int alu_output;
+    bool use_imm;
 };
 
 #endif // __EXECUTE_TO_WRITEBACK__

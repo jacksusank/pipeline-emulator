@@ -33,6 +33,11 @@ class Decode
     DecodeToExecute *output_reg;
 
     // TODO: your additional fields here!
+    string operation;
+    int destination;
+    int source_register1;
+    int source_register2;
+    int imm;
 
   public:
     Decode(Decoder *decoder, RegisterFile *register_file,
@@ -47,9 +52,28 @@ class Decode
 
     bool tick()
     {
-        // TODO: your implementation here!
+      // TODO: your implementation here!
 
+      if (input_reg->instruction == ""){
         return false;
+      }
+      string instruction = input_reg->instruction;
+      (*decoder).decode(instruction, operation, destination, source_register1, source_register2, imm);
+      
+      output_reg->operation = operation;
+      output_reg->destination = destination;
+      output_reg->register1_val = (*register_file).getRegister(source_register1);
+      output_reg->register2_val = (*register_file).getRegister(source_register2);
+
+      // output_reg->source_register1 = source_register1;
+      // output_reg->source_register2 = source_register2;
+      output_reg->imm = imm;
+
+      if (operation == "end"){
+        return true;
+      } else{
+        return false;
+      }
     };
 };
 
