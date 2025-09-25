@@ -52,8 +52,8 @@ class SingleCycleProcessor
         register_file(8),
         alu(),
         // TODO: any additional fields constructed here or in the function!
-        cycles_executed(0),
-        program_counter(0)
+        program_counter(0),
+        cycles_executed(0)
     {  };
 
     void dumpRegisters()
