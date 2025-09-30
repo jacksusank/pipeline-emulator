@@ -12,7 +12,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright (c) 2025: ST, Pomona College.
- * Contributor: Your name here!
+ * Contributor: Jack Susank
  */
 
 #include "components/instruction_memory.hh"
@@ -107,10 +107,15 @@ class HazardCheckingProcessor
             [[maybe_unused]] bool decode_drained = decode_stage.tick();
 
             // TODO: check for hazard
-            if (false) {
+            if (hazard_checking_unit.operandDependence()) { // If there is a hazard
+                // do nothing?
             } else {
                 // start exit sequence
                 if (decode_drained) {
+                    writeback_drained = writeback_stage.tick();
+                    execute_drained = execute_stage.tick();
+                    writeback_drained = writeback_stage.tick();
+                    break;
                     // TODO: use your exit methodology from the previous section here!
                 }
                 [[maybe_unused]] bool fetch_drained = fetch_stage.tick();

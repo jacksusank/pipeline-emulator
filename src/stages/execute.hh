@@ -12,7 +12,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright (c) 2025: ST, Pomona College.
- * Contributor: Your name here!
+ * Contributor: Jack Susank
  */
 
 #include "components/alu.hh"
@@ -50,27 +50,35 @@ class Execute
       int register1_val = input_reg->register1_val;
       int register2_val = input_reg->register2_val;
       int imm = input_reg->imm;
+      bool bubble = input_reg->bubble;
 
-      if (operation == "ldi"){
-        // register_file.setRegister(destination, imm);
-        output_reg->destination = destination;
-        output_reg->imm = imm;
-        output_reg->alu_output = 0;
-        output_reg->use_imm = true;
+      if (bubble) {
+        // Do nothing;
+        return false;
+      } else{
+        if (operation == "ldi"){
+          // register_file.setRegister(destination, imm);
+          output_reg->destination = destination;
+          output_reg->imm = imm;
+          output_reg->alu_output = 0;
+          output_reg->use_imm = true;
+          output_reg->bubble = bubble;
 
-      } else if (operation == "end") {
-        // break; // exit the while loop
-      } else {
-        (*alu).setInputs(operation, register1_val, register2_val);
-        unsigned int alu_output = (*alu).execute();
-        // register_file.setRegister(destination, alu_output);
-        output_reg->destination = destination;
-        output_reg->imm = 0;
-        output_reg->alu_output = alu_output;
-        output_reg->use_imm = false;
+        } else if (operation == "end") {
+          // break; // exit the while loop
+          return true;
+        } else {
+          (*alu).setInputs(operation, register1_val, register2_val);
+          unsigned int alu_output = (*alu).execute();
+          // register_file.setRegister(destination, alu_output);
+          output_reg->destination = destination;
+          output_reg->imm = 0;
+          output_reg->alu_output = alu_output;
+          output_reg->use_imm = false;
 
+        }
+        return false;
       }
-      return false;
     };
 };
 

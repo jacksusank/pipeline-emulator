@@ -39,14 +39,14 @@ class Writeback
         // TODO: construct your additional fields here or in the function!
     {  };
 
-    bool tick()
-    {
+    bool tick() {
         if (input_reg->use_imm) {
           data_in = input_reg->imm;
         } else{
           data_in = input_reg->alu_output;
         }
         register_file->setRegister(input_reg->destination, data_in);
+        input_reg->bubble = false;
         // TODO: your implementation here!
 
         return false;
