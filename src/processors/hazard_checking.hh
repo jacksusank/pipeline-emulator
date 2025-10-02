@@ -99,7 +99,7 @@ class HazardCheckingProcessor
     {
         /* Main Execution Loop */
         bool done = false;
-        bool bubble = false;
+        // bool bubble = false;
         do {
             cycles_executed++;
 
@@ -112,11 +112,11 @@ class HazardCheckingProcessor
 
             if (hazard_checking_unit.operandDependence()) { // If there is a hazard
                 // do nothing?
-                std::cerr << "\nBubble!";
-                bubble = true;
+                // std::cerr << "\nBubble!";
+                // bubble = true;
             } else {
-                bubble = false;
-                std::cerr << "\nAll good!";
+                // bubble = false;
+                // std::cerr << "\nAll good!";
                 // start exit sequence
                 if (decode_drained) {
                     writeback_drained = writeback_stage.tick();

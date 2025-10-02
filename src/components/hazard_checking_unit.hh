@@ -64,7 +64,7 @@ class HazardCheckingUnit
             if ((last_destination_register == reg1) || (last_destination_register == reg2)){ // Data hazard!
               bubble = true;
                 // std::cerr << "\nbubble = true"
-                          << last_destination_register;
+                          // << last_destination_register;
             } else {
                 // std::cerr << "1";
               bubble = false;
