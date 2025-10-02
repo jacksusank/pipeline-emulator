@@ -122,6 +122,7 @@ class HazardCheckingProcessor
                     writeback_drained = writeback_stage.tick();
                     execute_drained = execute_stage.tick();
                     writeback_drained = writeback_stage.tick();
+                    cycles_executed += 2;
                     break;
                     // TODO: use your exit methodology from the previous section here!
                 } else{
