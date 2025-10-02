@@ -108,11 +108,10 @@ class ForwardingProcessor
             [[maybe_unused]] bool decode_drained = decode_stage.tick();
 
             // TODO: check for hazard
-            if (forwarding_unit.operandDependence()) { // If we need to bubble, then 
-                bubble = true;
-                // std::cerr << "\nBubble!";
+            if (forwarding_unit.operandDependence()) {
+                // bubble = true;
             } else {
-                bubble = false;
+                // bubble = false;
                 // start exit sequence
                 if (decode_drained) {
                     writeback_drained = writeback_stage.tick();
