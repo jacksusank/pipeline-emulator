@@ -57,6 +57,7 @@ class ForwardingProcessor
     ForwardingUnit forwarding_unit;
 
     // TODO: your additional fields here!
+    bool bubble;
 
     // some stats for neat accounting
     int cycles_executed;
@@ -79,6 +80,7 @@ class ForwardingProcessor
         forwarding_unit(&decode_to_execute_register,
                         &execute_to_writeback_register),
         // TODO: any additional fields constructed here or in the function!
+        bubble(false),
         cycles_executed(0)
     {  };
 
@@ -106,11 +108,17 @@ class ForwardingProcessor
             [[maybe_unused]] bool decode_drained = decode_stage.tick();
 
             // TODO: check for hazard
-            if (false) {
+            if (forwarding_unit.operandDependence()) { // If we need to bubble, then 
+                bubble = true;
+                std::cerr << "\nBubble!";
             } else {
+                bubble = false;
                 // start exit sequence
                 if (decode_drained) {
-                    // TODO: use your exit methodology from the previous section here!
+                    writeback_drained = writeback_stage.tick();
+                    execute_drained = execute_stage.tick();
+                    writeback_drained = writeback_stage.tick();
+                    break;
                 }
                 [[maybe_unused]] bool fetch_drained = fetch_stage.tick();
             }

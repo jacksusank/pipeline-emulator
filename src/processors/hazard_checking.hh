@@ -111,7 +111,7 @@ class HazardCheckingProcessor
             // TODO: check for hazard
 
             if (hazard_checking_unit.operandDependence()) { // If there is a hazard
-                // do nothing?
+                // do nothing
                 // std::cerr << "\nBubble!";
                 // bubble = true;
             } else {

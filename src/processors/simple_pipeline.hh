@@ -97,6 +97,7 @@ class SimplePipelineProcessor
             [[maybe_unused]] bool execute_drained = execute_stage.tick();
             [[maybe_unused]] bool decode_drained = decode_stage.tick();
 
+
             // start exit sequence
             if (decode_drained) {
                 writeback_drained = writeback_stage.tick();

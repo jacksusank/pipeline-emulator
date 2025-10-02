@@ -26,19 +26,72 @@ class ForwardingUnit
   private:
     DecodeToExecute *decode_to_execute_register;
     ExecuteToWriteback *execute_to_writeback_register;
+    bool bubble;
+    int last_destination_register;
+    int reg1;
+    int reg2;
+    string this_operation;
 
   public:
     ForwardingUnit(DecodeToExecute *decode_to_execute_register,
                    ExecuteToWriteback *execute_to_writeback_register)
       : decode_to_execute_register(decode_to_execute_register),
-        execute_to_writeback_register(execute_to_writeback_register)
+        execute_to_writeback_register(execute_to_writeback_register),
+        bubble(false),
+        last_destination_register(0),
+        reg1(0),
+        reg2(0),
+        this_operation("")
     {  };
 
-    bool operandDependence()
+bool operandDependence()
     {
-        // TODO: your implementation here!
-        return false;
+      // TODO: your implementation here!
+      // Once we write to a destination, get rid of it from list of destinations
+      if (bubble) {
+        last_destination_register = 0;
+      } else {
+        last_destination_register = execute_to_writeback_register->destination;
+      }
+      reg1 = decode_to_execute_register->source_register1;
+      reg2 = decode_to_execute_register->source_register2;
+      // std::cerr << "\nLast Destination Register: "
+      //           << last_destination_register;
+      // std::cerr << "\nreg1: "
+      //           << reg1;
+      // std::cerr << "\nreg2: "
+      //           << reg2;
+
+      if (last_destination_register != 0){
+        if (last_destination_register == reg1){
+          if (this_operation == "ldi") {
+            bubble = true;            
+            std::cerr << "\nbubble = true";
+          } else{
+            decode_to_execute_register->register1_val = execute_to_writeback_register->alu_output;
+            bubble = false;            
+            std::cerr << "\nbubble = false";
+          }
+        } else if (last_destination_register == reg2){
+          if (this_operation == "ldi") {
+            bubble = true;
+            std::cerr << "\nbubble = true";
+          } else{
+            decode_to_execute_register->register2_val = execute_to_writeback_register->alu_output;
+            bubble = false;
+            std::cerr << "\nbubble = false";
+          }
+        } else {
+            // std::cerr << "1";
+          bubble = false;
+        }
+      } else {
+          // std::cerr << "2";
+        bubble = false;
+      }    
+      return bubble;
     };
 };
+
 
 #endif // __FORWARDING_UNIT__

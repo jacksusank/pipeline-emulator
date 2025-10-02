@@ -40,7 +40,6 @@ class SingleCycleProcessor
     int source_register1;
     int source_register2;
     int imm;
-    // scons build/RISCV/gem5.debug -j8 -linker=gold
 
     // some stats for neat accounting
     int cycles_executed;
@@ -73,34 +72,24 @@ class SingleCycleProcessor
          /* Main Execution Loop */
          while (true) {
             cycles_executed++;
-
-            // TODO: your implementation here!
-
-            // The 5 steps according to pdf:
-
-            // 1. retrieve an instruction from instruction memory
-              // InstructionMemory(string program_filename)
-                // accessing instruction memory is as easy as receiving an
-                // index (i.e., program counter) and accessing the vector!
-                  // string getInstruction(int idx)
             
-            string instruction = instruction_memory.getInstruction(program_counter);
+            string instruction = instruction_memory.getInstruction(program_counter); //250
 
             decoder.decode(instruction, operation, destination, source_register1, source_register2, imm);
 
-            if (operation == "ldi"){
-              register_file.setRegister(destination, imm);
-            } else if (operation == "end") {
+            if (operation == "ldi"){ //25
+              register_file.setRegister(destination, imm); //150 
+            } else if (operation == "end") { //25
               break; // exit the while loop
             } else {
-              int reg1 = register_file.getRegister(source_register1);
-              int reg2 = register_file.getRegister(source_register2);
+              int reg1 = register_file.getRegister(source_register1); //150
+              int reg2 = register_file.getRegister(source_register2); 
 
               alu.setInputs(operation, reg1, reg2);
-              unsigned int alu_output = alu.execute();
+              unsigned int alu_output = alu.execute(); //150
               register_file.setRegister(destination, alu_output);
             }
-            program_counter++;
+            program_counter++; //100
 
 
 
