@@ -110,7 +110,7 @@ class ForwardingProcessor
             // TODO: check for hazard
             if (forwarding_unit.operandDependence()) { // If we need to bubble, then 
                 bubble = true;
-                std::cerr << "\nBubble!";
+                // std::cerr << "\nBubble!";
             } else {
                 bubble = false;
                 // start exit sequence

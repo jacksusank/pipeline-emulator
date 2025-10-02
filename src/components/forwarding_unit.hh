@@ -66,20 +66,20 @@ bool operandDependence()
         if (last_destination_register == reg1){
           if (this_operation == "ldi") {
             bubble = true;            
-            std::cerr << "\nbubble = true";
+            // std::cerr << "\nbubble = true";
           } else{
             decode_to_execute_register->register1_val = execute_to_writeback_register->alu_output;
             bubble = false;            
-            std::cerr << "\nbubble = false";
+            // std::cerr << "\nbubble = false";
           }
         } else if (last_destination_register == reg2){
           if (this_operation == "ldi") {
             bubble = true;
-            std::cerr << "\nbubble = true";
+            // std::cerr << "\nbubble = true";
           } else{
             decode_to_execute_register->register2_val = execute_to_writeback_register->alu_output;
             bubble = false;
-            std::cerr << "\nbubble = false";
+            // std::cerr << "\nbubble = false";
           }
         } else {
             // std::cerr << "1";
