@@ -27,6 +27,7 @@
 #include "stages/decode.hh"
 #include "stages/execute.hh"
 #include "stages/writeback.hh"
+#include "iostream"
 
 #include <string>
 
@@ -98,6 +99,7 @@ class HazardCheckingProcessor
     {
         /* Main Execution Loop */
         bool done = false;
+        bool bubble = false;
         do {
             cycles_executed++;
 
@@ -107,9 +109,14 @@ class HazardCheckingProcessor
             [[maybe_unused]] bool decode_drained = decode_stage.tick();
 
             // TODO: check for hazard
+
             if (hazard_checking_unit.operandDependence()) { // If there is a hazard
                 // do nothing?
+                std::cerr << "\nBubble!";
+                bubble = true;
             } else {
+                bubble = false;
+                std::cerr << "\nAll good!";
                 // start exit sequence
                 if (decode_drained) {
                     writeback_drained = writeback_stage.tick();
@@ -117,8 +124,9 @@ class HazardCheckingProcessor
                     writeback_drained = writeback_stage.tick();
                     break;
                     // TODO: use your exit methodology from the previous section here!
+                } else{
+                    [[maybe_unused]] bool fetch_drained = fetch_stage.tick();
                 }
-                [[maybe_unused]] bool fetch_drained = fetch_stage.tick();
             }
 
             done = writeback_drained;

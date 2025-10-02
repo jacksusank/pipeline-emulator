@@ -65,8 +65,8 @@ class Decode
       output_reg->register1_val = (*register_file).getRegister(source_register1);
       output_reg->register2_val = (*register_file).getRegister(source_register2);
 
-      // output_reg->source_register1 = source_register1;
-      // output_reg->source_register2 = source_register2;
+      output_reg->source_register1 = source_register1;
+      output_reg->source_register2 = source_register2;
       output_reg->imm = imm;
 
       if (operation == "end"){

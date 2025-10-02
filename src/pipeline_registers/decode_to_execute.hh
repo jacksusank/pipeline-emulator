@@ -26,10 +26,9 @@ class DecodeToExecute
     int destination = 0;
     int register1_val = 0;
     int register2_val = 0;
-    // int source_register1;
-    // int source_register2;
+    int source_register1;
+    int source_register2;
     int imm;
-    bool bubble;
 };
 
 #endif // __DECODE_TO_EXECUTE__

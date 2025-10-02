@@ -17,6 +17,7 @@
 
 #include "components/register_file.hh"
 #include "pipeline_registers/execute_to_writeback.hh"
+#include "components/hazard_checking_unit.hh"
 
 #ifndef __WRITEBACK_STAGE__
 #define __WRITEBACK_STAGE__
@@ -27,6 +28,7 @@ class Writeback
     // primary components to perform this stage
     RegisterFile *register_file;
     ExecuteToWriteback *input_reg;
+    HazardCheckingUnit *hazard_checking_unit;
     int data_in;
 
     // TODO: your additional fields here!
@@ -46,7 +48,6 @@ class Writeback
           data_in = input_reg->alu_output;
         }
         register_file->setRegister(input_reg->destination, data_in);
-        input_reg->bubble = false;
         // TODO: your implementation here!
 
         return false;

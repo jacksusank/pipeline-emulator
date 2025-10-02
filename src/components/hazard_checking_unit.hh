@@ -31,6 +31,9 @@ class HazardCheckingUnit
     ExecuteToWriteback *execute_to_writeback_register;
     std::vector<int> destinations_in_use;
     bool bubble;
+    int last_destination_register;
+    int reg1;
+    int reg2;
 
 
   public:
@@ -38,53 +41,38 @@ class HazardCheckingUnit
                        ExecuteToWriteback *execute_to_writeback_register)
       : decode_to_execute_register(decode_to_execute_register),
         execute_to_writeback_register(execute_to_writeback_register),
-        bubble(false)
-    {  };
+        last_destination_register(0),
+        reg1(0),
+        reg2(0)
+{  };
 
     bool operandDependence()
     {
         // TODO: your implementation here!
-
-
-        // ldi r1, 3
-        // ldi r0, 1
-        // ldi r2, 17
-        // mod r3, r2, r1
-        // mul r2, r2, r0
-        // sub r4, r1, r2
-        // end
-
-
-
-
-        // Check if there is a data hazard
-          // Store destination of every instruction and get rid of it when writeback completes
-          // If another instruction comes in and relies on the same register, then start a bubble.
-
-          // Add new destination to list of destinations
-          if (decode_to_execute_register->destination != 0) {
-            auto old_dest = std::find(destinations_in_use.begin(), destinations_in_use.end(), decode_to_execute_register->destination);
-            if (old_dest != destinations_in_use.end()) { // If the register destination is in use, then create a bubble.
-              bubble = true;
-              destinations_in_use.push_back(decode_to_execute_register->destination);
-            } else{ // Otherwise, the register destination is not in use, then add it to the list without making a bubble.
-              destinations_in_use.push_back(decode_to_execute_register->destination);
-            }
-          }
-
-
-
           // Once we write to a destination, get rid of it from list of destinations
-          if (execute_to_writeback_register->destination != 0) { //
-            auto index_location = std::find(destinations_in_use.begin(), destinations_in_use.end(), execute_to_writeback_register->destination);
-            if (index_location != destinations_in_use.end()) { // This shoukld never be false.
-                destinations_in_use.erase(index_location);
-            } else {
-              std::cerr << "Error: Destination not in list! This should never happen!\n";
-            }
-          }
+          last_destination_register = execute_to_writeback_register->destination;
+          reg1 = decode_to_execute_register->source_register1;
+          reg2 = decode_to_execute_register->source_register2;
+          // std::cerr << "\nLast Destination Register: "
+          //           << last_destination_register;
+          // std::cerr << "\nreg1: "
+          //           << reg1;
+          // std::cerr << "\nreg2: "
+          //           << reg2;
 
-        decode_to_execute_register->bubble = bubble;
+          if (last_destination_register != 0){
+            if ((last_destination_register == reg1) || (last_destination_register == reg2)){ // Data hazard!
+              bubble = true;
+                // std::cerr << "\nbubble = true"
+                          << last_destination_register;
+            } else {
+                // std::cerr << "1";
+              bubble = false;
+            }
+          } else {
+              // std::cerr << "2";
+            bubble = false;
+          }    
         return bubble;
     };
 };

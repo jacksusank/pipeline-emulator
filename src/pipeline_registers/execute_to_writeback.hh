@@ -26,7 +26,6 @@ class ExecuteToWriteback
     int imm;
     unsigned int alu_output;
     bool use_imm;
-    bool bubble;
 };
 
 #endif // __EXECUTE_TO_WRITEBACK__
