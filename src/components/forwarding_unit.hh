@@ -55,6 +55,7 @@ bool operandDependence()
       }
       reg1 = decode_to_execute_register->source_register1;
       reg2 = decode_to_execute_register->source_register2;
+      this_operation = decode_to_execute_register->operation;
       // std::cerr << "\nLast Destination Register: "
       //           << last_destination_register;
       // std::cerr << "\nreg1: "
@@ -62,24 +63,39 @@ bool operandDependence()
       // std::cerr << "\nreg2: "
       //           << reg2;
 
-      if (last_destination_register != 0){
-        if (last_destination_register == reg1){
-          if (this_operation == "ldi") {
+      if (last_destination_register != 0) {
+        if (last_destination_register == reg1) {
+          // if (this_operation == "ldi") {
+          if (execute_to_writeback_register->use_imm) {
             bubble = true;            
-            // std::cerr << "\nbubble = true";
+            std::cerr << "\nbubble = true";
+            std::cerr << "\nthis_operation: "
+                      << this_operation;
           } else{
             decode_to_execute_register->register1_val = execute_to_writeback_register->alu_output;
             bubble = false;            
             // std::cerr << "\nbubble = false";
+            std::cerr << "\nThis Operation = "
+                      << this_operation;
+            std::cerr << "\nRegister matched = "
+                      << reg1;
           }
         } else if (last_destination_register == reg2){
-          if (this_operation == "ldi") {
-            bubble = true;
+          // if (this_operation == "ldi") {          
+          if (execute_to_writeback_register->use_imm) {
+            decode_to_execute_register->register2_val = execute_to_writeback_register->imm;
+            bubble = false;
+
+            // bubble = true;
             // std::cerr << "\nbubble = true";
-          } else{
+          } else {
             decode_to_execute_register->register2_val = execute_to_writeback_register->alu_output;
             bubble = false;
             // std::cerr << "\nbubble = false";
+            std::cerr << "\nThis Operation = "
+                      << this_operation;
+            std::cerr << "\nRegister matched = "
+                      << reg2;
           }
         } else {
             // std::cerr << "1";
