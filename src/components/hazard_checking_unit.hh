@@ -57,17 +57,17 @@ class HazardCheckingUnit
           }
           reg1 = decode_to_execute_register->source_register1;
           reg2 = decode_to_execute_register->source_register2;
-          std::cerr << "\nLast Destination Register: "
-                    << last_destination_register;
-          std::cerr << "\nreg1: "
-                    << reg1;
-          std::cerr << "\nreg2: "
-                    << reg2;
+          // std::cerr << "\nLast Destination Register: "
+          //           << last_destination_register;
+          // std::cerr << "\nreg1: "
+          //           << reg1;
+          // std::cerr << "\nreg2: "
+          //           << reg2;
 
           if (last_destination_register != 0){
             if ((last_destination_register == reg1) || (last_destination_register == reg2)){ // Data hazard!
               bubble = true;
-                std::cerr << "\nbubble = true";
+                // std::cerr << "\nbubble = true";
             } else {
                 // std::cerr << "1";
               bubble = false;

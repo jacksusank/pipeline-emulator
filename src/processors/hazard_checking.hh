@@ -112,7 +112,7 @@ class HazardCheckingProcessor
 
             if (hazard_checking_unit.operandDependence()) { // If there is a hazard
                 // do nothing?
-                std::cerr << "\nBubble!";
+                // std::cerr << "\nBubble!";
                 // bubble = true;
             } else {
                 // bubble = false;
@@ -122,7 +122,6 @@ class HazardCheckingProcessor
                     writeback_drained = writeback_stage.tick();
                     execute_drained = execute_stage.tick();
                     writeback_drained = writeback_stage.tick();
-                    cycles_executed += 1;
                     break;
                     // TODO: use your exit methodology from the previous section here!
                 } else{
