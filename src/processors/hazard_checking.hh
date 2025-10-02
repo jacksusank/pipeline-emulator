@@ -112,7 +112,7 @@ class HazardCheckingProcessor
 
             if (hazard_checking_unit.operandDependence()) { // If there is a hazard
                 // do nothing?
-                // std::cerr << "\nBubble!";
+                std::cerr << "\nBubble!";
                 // bubble = true;
             } else {
                 // bubble = false;
